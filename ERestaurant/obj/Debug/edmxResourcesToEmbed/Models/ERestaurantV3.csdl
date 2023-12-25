@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="restaurantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Active" Type="Int32" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NameVN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Company_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Service_charge_value" Type="Double" />
+    <Property Name="Vat_charge_value" Type="Double" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Group_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Permission" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User_group" Relationship="Self.FK_User_group_Groups" FromRole="Groups" ToRole="User_group" />
+  </EntityType>
+  <EntityType Name="Order_items">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_id" Type="Int32" />
+    <Property Name="Product_id" Type="Int32" />
+    <Property Name="Qty" Type="Int32" />
+    <Property Name="Rate" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Order_items_Orders" FromRole="Order_items" ToRole="Orders" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Order_items_Product" FromRole="Order_items" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Bill_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Date_time" Type="DateTime" Precision="3" />
+    <Property Name="Gross_amount" Type="Double" />
+    <Property Name="Service_charge_amount" Type="Double" />
+    <Property Name="Vat_charge_rate" Type="Double" />
+    <Property Name="Vat_charge_amount" Type="Double" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="Net_amount" Type="Double" />
+    <Property Name="User_id" Type="Int32" />
+    <Property Name="Paid_status" Type="Int32" />
+    <Property Name="Table_id" Type="Int32" />
+    <NavigationProperty Name="Order_items" Relationship="Self.FK_Order_items_Orders" FromRole="Orders" ToRole="Order_items" />
+    <NavigationProperty Name="Tables" Relationship="Self.FK_Orders_Tables" FromRole="Orders" ToRole="Tables" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Orders_User" FromRole="Orders" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category_id" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Precision="20" Scale="2" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Order_items" Relationship="Self.FK_Order_items_Product" FromRole="Product" ToRole="Order_items" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Table_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Capacity" Type="Int32" />
+    <Property Name="Available" Type="Int32" />
+    <Property Name="Active" Type="Int32" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Tables" FromRole="Tables" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="Int32" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_User" FromRole="User" ToRole="Orders" />
+    <NavigationProperty Name="User_group" Relationship="Self.FK_User_group_User" FromRole="User" ToRole="User_group" />
+  </EntityType>
+  <EntityType Name="User_group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_id" Type="Int32" />
+    <Property Name="Group_id" Type="Int32" />
+    <NavigationProperty Name="Groups" Relationship="Self.FK_User_group_Groups" FromRole="User_group" ToRole="Groups" />
+    <NavigationProperty Name="User" Relationship="Self.FK_User_group_User" FromRole="User_group" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Product_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_group_Groups">
+    <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
+    <End Role="User_group" Type="Self.User_group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_group">
+        <PropertyRef Name="Group_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_items_Orders">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+    <End Role="Order_items" Type="Self.Order_items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order_items">
+        <PropertyRef Name="Order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_items_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Order_items" Type="Self.Order_items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order_items">
+        <PropertyRef Name="Product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Tables">
+    <End Role="Tables" Type="Self.Tables" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tables">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="Table_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_group_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="User_group" Type="Self.User_group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_group">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="restaurantEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Category" EntityType="Self.Category" />
+    <EntitySet Name="Company" EntityType="Self.Company" />
+    <EntitySet Name="Groups" EntityType="Self.Groups" />
+    <EntitySet Name="Order_items" EntityType="Self.Order_items" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" />
+    <EntitySet Name="Product" EntityType="Self.Product" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Tables" EntityType="Self.Tables" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <EntitySet Name="User_group" EntityType="Self.User_group" />
+    <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_group_Groups" Association="Self.FK_User_group_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="User_group" EntitySet="User_group" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_items_Orders" Association="Self.FK_Order_items_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="Order_items" EntitySet="Order_items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_items_Product" Association="Self.FK_Order_items_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Order_items" EntitySet="Order_items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Tables" Association="Self.FK_Orders_Tables">
+      <End Role="Tables" EntitySet="Tables" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_User" Association="Self.FK_Orders_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_group_User" Association="Self.FK_User_group_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_group" EntitySet="User_group" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,70 @@
+﻿@model ERestaurant.Models.Product
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+    <style>
+        div {
+            margin-bottom:10px;
+        }
+        div label {
+            display:inline-block;
+            width:200px;
+        }
+        .field-validation-error {
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Them moi san pham</h2>
+        <div>
+            @Html.ValidationSummary(true)
+        </div>
+        @using (Html.BeginForm("Add", "Product", FormMethod.Post, new {enctype="multipart/form-data"}))
+        {
+            <div>
+                @Html.LabelFor(m => m.Category_id)
+ 
+                @Html.DropDownListFor(m => m.Category_id, (SelectList)ViewBag.Ctgr)
+                @Html.ValidationMessageFor(m => m.Category_id)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Name)
+                @Html.EditorFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Price)
+                @Html.EditorFor(m => m.Price)
+                @Html.ValidationMessageFor(m => m.Price)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Description)
+                @Html.EditorFor(m => m.Description)
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Image)
+                <input type="file" name="fileImage" />
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Active)
+                @Html.EditorFor(m => m.Active)
+                @Html.ValidationMessageFor(m => m.Active)
+            </div>
+            <div>
+                <input type="submit" value="Them moi" />
+            </div>
+        }
+    </div>
+</body>
+</html>

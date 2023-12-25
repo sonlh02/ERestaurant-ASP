@@ -1,0 +1,49 @@
+﻿@model ERestaurant.Models.Category
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Them moi danh muc san pham</title>
+    <style>
+        div{
+            margin-bottom:10px;
+        }
+        div label{
+            display:inline-block;
+            width:100px;
+        }
+    </style>
+</head>
+<body>
+    <div> 
+        <h2>Them moi danh muc san pham</h2>
+        @using(Html.BeginForm())
+            {
+                <div>
+                    @Html.LabelFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name)
+                </div>
+                <div>
+                    @Html.LabelFor(m => m.NameVN)
+                    @Html.TextBoxFor(m => m.NameVN)
+                </div>
+                <div>
+                    @Html.LabelFor(m => m.Active)
+                    @Html.TextBoxFor(m => m.Active)
+                </div>
+                <div>
+                    <span>@ViewBag.Message</span>
+                </div>
+                <div>
+                    <input type="submit" value="Them moi" />
+                </div>
+            }
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿@model List<ERestaurant.Models.Product>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        table {
+            border-collapse:collapse;
+        }
+    </style>
+</head>
+<body>
+    <div> 
+        <h2>Danh sach san pham co trong he thong</h2>
+        <div>
+            <div>
+                @Html.ActionLink("Them moi","Add")
+            </div>
+            @using (Html.BeginForm("Index","Product",FormMethod.Get))
+            {
+                <span>Bo loc:</span>
+                <label>Theo danh muc:</label>
+                @Html.DropDownList("Ctgr","-----Chon tat ca danh muc-----")
+                <label>Theo ten:</label>
+                @Html.TextBox("Search")
+                <input type="submit" value="Loc" />
+            }
+        </div>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <tr>
+                <th>Id</th>
+                <th>Category Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Category.NameVN</td>
+                    <td>@item.Name</td>
+                    <td>@Html.FormatValue(item.Price,"{0:#,###}")</td>
+                    <td>
+                        <img src="@item.Image" width="100px"/>
+                    </td>
+                    <td>@item.Active</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { Id = item.Id })
+                        @Html.ActionLink("Delete", "Delete", new { Id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
